@@ -3,7 +3,7 @@ variable "region_name" {}
 variable "AWS_ACCESS_KEY_ID" {}
 variable "AWS_SECRET_ACCESS_KEY" {}
 variable "SSH_KEY_PUB" {}
-data "ubuntu_ami" "ubuntu" {
+data "aws_ami" "ubuntu" {
   most_recent = true
 
   filter {
@@ -50,7 +50,7 @@ resource "aws_security_group" "allow_ssh" {
 }
 
 resource "aws_instance" "web" {
-  ami           = data.ubuntu_ami.ubuntu.id
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   key_name      = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [
