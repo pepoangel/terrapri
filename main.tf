@@ -65,3 +65,4 @@ output "ip_instance" {
 
 output "ssh" {
   value = "ssh -l ubuntu ${aws_instance.web.public_ip}"
+}
