@@ -1,5 +1,6 @@
 variable "vpc_id" {}
 variable "region_name" {}
+variable "AWS_ACCESS_KEY_ID" {}
 
 data "aws_ami" "ubuntu" {
   most_recent = true
