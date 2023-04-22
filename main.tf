@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["00c39f71452c08778"] # amazon
+  owners = ["0a695f0d95cefc163"] # amazon
 }
 
 resource "aws_key_pair" "deployer" {
