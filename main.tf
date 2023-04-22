@@ -62,7 +62,7 @@ resource "aws_instance" "web" {
 }
 
 output "ip_instance" {
-  value = aws_instance.web.public_ip
+  value = "Este es el IP ${aws_instance.web.public_ip}"
 }
 
 output "ssh" {
