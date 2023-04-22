@@ -7,8 +7,8 @@ data "ubuntu_ami" "ubuntu" {
   most_recent = true
 
   filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    name   = "image-id"
+    values = ["ami-0a695f0d95cefc163"]
   }
 
   filter {
@@ -16,7 +16,7 @@ data "ubuntu_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  owners = ["0a695f0d95cefc163"] # ubuntu
+  owners = ["099720109477"] # Canonical
 }
 
 resource "aws_key_pair" "deployer" {
