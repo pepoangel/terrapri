@@ -3,6 +3,7 @@ variable "region_name" {}
 variable "AWS_ACCESS_KEY_ID" {}
 variable "AWS_SECRET_ACCESS_KEY" {}
 variable "SSH_KEY_PUB" {}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -36,7 +37,13 @@ resource "aws_security_group" "allow_ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  ingress {
+    description = "http from VPC"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -53,14 +60,16 @@ resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   key_name      = aws_key_pair.deployer.key_name
+  user_data    = file("data.sh")
   vpc_security_group_ids = [
     aws_security_group.allow_ssh.id
   ]
   tags = {
     Name = "HelloWorld"
   }
-}
 
+}
+  
 output "ip_instance" {
   value = "Este es ${aws_instance.web.public_ip}"
 }
