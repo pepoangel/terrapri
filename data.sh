@@ -1,6 +1,6 @@
 #! /bin/bash
-sudo apt-get update
-sudo apt-get install -y niginx wget
+sudo apt update
+sudo apt install -y nginx wget
 sudo systemctl start nginx
 sudo systemctl enable nginx
 wget https://github.com/pepoangel/terrapri/blob/main/data.sh
