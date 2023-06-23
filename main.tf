@@ -37,7 +37,20 @@ resource "aws_security_group" "allow_ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  resource "aws_security_group" "allow_http" {
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_ssh"
+  }
+}
+
+resource "aws_security_group" "allow_http" {
   name        = "allow_http"
   description = "Allow HTTP inbound traffic"
   vpc_id      = var.vpc_id
@@ -49,7 +62,6 @@ resource "aws_security_group" "allow_ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
 
   egress {
     from_port   = 0
@@ -63,17 +75,7 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
-  tags = {
-    Name = "allow_ssh"
-  }
-}
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
