@@ -52,6 +52,7 @@ resource "aws_security_group" "allow_ssh" {
 resource "aws_ebs_volume" "my_bucket" {
   availability_zone = var.region_name
   type  = "gp3"
+  size = "10G"
   tags = {
     name = "my_bucket"
   }  
