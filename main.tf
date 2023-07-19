@@ -52,7 +52,6 @@ resource "aws_security_group" "allow_ssh" {
 resource "aws_ebs_volume" "my_bucket" {
   availability_zone = var.region_name
   type  = "gp3"
-  force_destroy = true
   tags = {
     name = "my_bucket"
   }  
