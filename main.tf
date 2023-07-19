@@ -18,11 +18,7 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = "mi-bucket-NUEVO"  
-  acl    = "private"  
-  force_destroy = true  
-}
+
 
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
@@ -52,6 +48,19 @@ resource "aws_security_group" "allow_ssh" {
   tags = {
     Name = "allow_ssh"
   }
+}
+resource "aws_ebs_volume" "my_bucket" {
+  availability_zone = var.region_name
+  type  = "gp3"
+  force_destroy = true
+  tags = {
+    name = "my_bucket"
+  }  
+}
+resource "aws_volume_attachment" "ebs_attachment" {
+  device_name = "/dev/sdf" 
+  volume_id   = aws_ebs_volume.my_bucket.id
+  instance_id = aws_instance.web.id
 }
 
 
