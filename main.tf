@@ -63,6 +63,10 @@ resource "aws_volume_attachment" "ebs_attachment" {
   volume_id   = aws_ebs_volume.my_bucket.id
   instance_id = aws_instance.web.id
 }
+# Agregar antes del recurso "aws_instance"
+resource "aws_eip" "web_eip" {
+  instance = aws_instance.web.id
+}
 
 
 resource "aws_instance" "web" {
