@@ -20,7 +20,6 @@ data "aws_ami" "ubuntu" {
 }
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "mi-bucket-NUEVO"  
-  size = 10 * 1024
   acl    = "private"  
   force_destroy = true  
 }
