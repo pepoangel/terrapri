@@ -48,6 +48,10 @@ resource "aws_security_group" "allow_ssh" {
     Name = "allow_ssh"
   }
 }
+# Agregar antes del recurso "aws_instance"
+resource "aws_eip" "web_eip" {
+  instance = aws_instance.web.id
+}
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
