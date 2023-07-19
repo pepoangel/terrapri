@@ -18,6 +18,12 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = "mi-bucket-NUEVO"  
+  size = 10 * 1024
+  acl    = "private"  
+  force_destroy = true  
+}
 
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
@@ -48,10 +54,7 @@ resource "aws_security_group" "allow_ssh" {
     Name = "allow_ssh"
   }
 }
-# Agregar antes del recurso "aws_instance"
-resource "aws_eip" "web_eip" {
-  instance = aws_instance.web.id
-}
+
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
