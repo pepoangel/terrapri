@@ -37,13 +37,6 @@ resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
   description = "Allow SSH inbound traffic"
   vpc_id      = var.vpc_id
-  ingress {
-    description = "SSH from VPC"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
  
 
   egress {
@@ -64,7 +57,7 @@ resource "aws_security_group" "allow_ssh" {
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.nano"
+  instance_type = "t2.micro"
   key_name      = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [
     aws_security_group.allow_ssh.id
@@ -72,14 +65,6 @@ resource "aws_instance" "web" {
   tags = {
     Name = "Helloworld"
   }
-}
-# Crear una dirección IP elástica para asociarla con la instancia EC2
-resource "aws_eip" "web_eip" {
-  instance = aws_instance.web.id
-}
-resource "aws_eip_association" "eip_assoc" {
-  instance_id   = aws_instance.web.id
-  allocation_id = aws_eip.web_eip.id
 }
 # Salidas para mostrar información útil después de la creación de los recursos
 
