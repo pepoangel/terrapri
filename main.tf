@@ -1,8 +1,12 @@
+# Variables
+
 variable "vpc_id" {}
 variable "region_name" {}
 variable "AWS_ACCESS_KEY_ID" {}
 variable "AWS_SECRET_ACCESS_KEY" {}
 variable "SSH_KEY_PUB" {}
+
+# Obtener información sobre la AMI de Ubuntu que será utilizada para la instancia EC2
 
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -20,11 +24,14 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+# Crear un par de claves SSH para acceder a las instancias
 
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
   public_key = var.SSH_KEY_PUB
 }
+
+# Crear un grupo de seguridad que permita el tráfico SSH entrante y saliente
 
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
@@ -51,11 +58,13 @@ resource "aws_security_group" "allow_ssh" {
   }
 }
 
-# Agregar antes del recurso "aws_instance"
+# Crear una dirección IP elástica para asociarla con la instancia EC2
+
 resource "aws_eip" "web_eip" {
   instance = aws_instance.web.id
 }
 
+# Crear una instancia EC2 utilizando la AMI de Ubuntu, el tipo de instancia, la clave SSH y el grupo de seguridad
 
 resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
@@ -68,6 +77,8 @@ resource "aws_instance" "web" {
     Name = "Helloworld"
   }
 }
+
+# Salidas para mostrar información útil después de la creación de los recursos
 
 output "ip_instance" {
   value = "Este es ${aws_instance.web.public_ip}"
