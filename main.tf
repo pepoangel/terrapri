@@ -62,6 +62,7 @@ resource "aws_security_group" "allow_ssh" {
 
 resource "aws_eip" "web_eip" {
   instance = aws_instance.web.id
+  depends_on = [aws_instance.web]
 }
 
 # Crear una instancia EC2 utilizando la AMI de Ubuntu, el tipo de instancia, la clave SSH y el grupo de seguridad
