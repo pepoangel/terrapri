@@ -1,4 +1,4 @@
 
 vpc_id      = "vpc-009b60f17761d7371"
-region_name = "us-east-2"
+region_name = "us-east-2b"
 availability_zone = "us-east-2b"
