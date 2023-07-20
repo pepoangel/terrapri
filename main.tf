@@ -52,8 +52,8 @@ resource "aws_security_group" "allow_ssh" {
 }
 resource "aws_ebs_volume" "my_bucket" {
   availability_zone = var.availability_zone
-  type  = "gp3"
-  size = 10
+  type  = "gp2"
+  size = 8
   tags = {
     name = "my_bucket"
   }  
