@@ -3,7 +3,7 @@ variable "region_name" {}
 variable "AWS_ACCESS_KEY_ID" {}
 variable "AWS_SECRET_ACCESS_KEY" {}
 variable "SSH_KEY_PUB" {}
-variable "availability_zone" {}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -50,19 +50,7 @@ resource "aws_security_group" "allow_ssh" {
     Name = "allow_ssh"
   }
 }
-resource "aws_ebs_volume" "my_bucket" {
-  availability_zone = var.availability_zone
-  type  = "gp3"
-  size = 8
-  tags = {
-    name = "my_bucket"
-  }  
-}
-resource "aws_volume_attachment" "ebs_attachment" {
-  device_name = "/dev/sdf" 
-  volume_id   = aws_ebs_volume.my_bucket.id
-  instance_id = aws_instance.web.id
-}
+
 # Agregar antes del recurso "aws_instance"
 resource "aws_eip" "web_eip" {
   instance = aws_instance.web.id
