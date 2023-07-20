@@ -59,11 +59,10 @@ resource "aws_security_group" "allow_ssh" {
 }
 
 # Crear una dirección IP elástica para asociarla con la instancia EC2
+#resource "aws_eip" "web_eip" {
+#  instance = aws_instance.web.id
+#}
 
-resource "aws_eip" "web_eip" {
-  instance = aws_instance.web.id
-  depends_on = [aws_instance.web]
-}
 
 # Crear una instancia EC2 utilizando la AMI de Ubuntu, el tipo de instancia, la clave SSH y el grupo de seguridad
 
