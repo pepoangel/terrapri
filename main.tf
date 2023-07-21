@@ -73,6 +73,16 @@ resource "aws_instance" "web" {
     Name = "LinuxDO"
   }
 }
+# Crear una dirección IP elástica para asociarla con la instancia EC2
+resource "aws_eip" "web_eip" {
+  instance = aws_instance.web.id
+}
+resource "aws_eip_association" "eip_assoc" {
+  instance_id = aws_instance.web.id
+  allocation_id = aws_eip.web_eip.id
+}
+
+
 # Salidas para mostrar información útil después de la creación de los recursos
 
 output "ip_instance" {
