@@ -63,7 +63,7 @@ resource "aws_instance" "web" {
     aws_security_group.allow_ssh.id
   ]
   tags = {
-    Name = "Helloworld"
+    Name = "LinuxDO"
   }
 }
 # Salidas para mostrar información útil después de la creación de los recursos
