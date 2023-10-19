@@ -6,23 +6,7 @@ variable "AWS_ACCESS_KEY_ID" {}
 variable "AWS_SECRET_ACCESS_KEY" {}
 variable "SSH_KEY_PUB" {}
 
-# Obtener información sobre la AMI de Ubuntu que será utilizada para la instancia EC2
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "image-id"
-    values = ["ami-0f8e81a3da6e2510a"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
 
 # Crear un par de claves SSH para acceder a las instancias
 
@@ -31,32 +15,7 @@ resource "aws_key_pair" "deployer" {
   public_key = var.SSH_KEY_PUB
 }
 
-# Crear un grupo de seguridad que permita el tráfico SSH entrante y saliente
 
-resource "aws_security_group" "allow_ssh" {
-  name        = "allow_ssh"
-  description = "Allow SSH inbound traffic"
-  vpc_id      = var.vpc_id
-ingress {
-    description = "SSH from VPC"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
- 
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "allow_ssh"
-  }
-}
 
 
 
@@ -72,23 +31,4 @@ resource "aws_instance" "web" {
   tags = {
     Name = "LinuxDO"
   }
-}
-# Crear una dirección IP elástica para asociarla con la instancia EC2
-resource "aws_eip" "web_eip" {
-  instance = aws_instance.web.id
-}
-resource "aws_eip_association" "eip_assoc" {
-  instance_id = aws_instance.web.id
-  allocation_id = aws_eip.web_eip.id
-}
-
-
-# Salidas para mostrar información útil después de la creación de los recursos
-
-output "ip_instance" {
-  value = "Este es ${aws_instance.web.public_ip}"
-}
-
-output "ssh" {
-  value = "ssh -l ubuntu ${aws_instance.web.public_ip}"
 }
