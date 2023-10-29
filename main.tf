@@ -1,12 +1,3 @@
-# Variables
-
-variable "vpc_id" {}
-variable "region_name" {}
-variable "AWS_ACCESS_KEY_ID" {}
-variable "AWS_SECRET_ACCESS_KEY" {}
-variable "SSH_KEY_PUB" {}
-
-
 
 # Crear un par de claves SSH para acceder a las instancias
 
@@ -14,10 +5,6 @@ resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
   public_key = var.SSH_KEY_PUB
 }
-
-
-
-
 
 # Crear una instancia EC2 utilizando la AMI de Ubuntu, el tipo de instancia, la clave SSH y el grupo de seguridad
 
